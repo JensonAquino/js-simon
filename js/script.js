@@ -14,39 +14,59 @@ function getRandomNum(min, max) {
 
 const rndmNumArray = (min, max, length) => {
     const numArray = [];
-    for (let i = 0; i < length; i++){
+    for (let i = 0; i < length; i++) {
         const randomNUm = getRandomNum(min, max);
         numArray.push(randomNUm)
     }
-    return  numArray;
+    return numArray;
 }
 //variabbili globali
 
 let numsArray = []
 
 const startGame = () => {
+    errorCountElem.innerHTML = "";
+    guessFormElem.classList.add("d-none")
     startBtnElem.disabled = true
     numsArray = rndmNumArray(1, 99, 5);
-    
-    for(let i = 0; i < numsArray.length; i++){
+
+    for (let i = 0; i < numsArray.length; i++) {
         const curNum = numsArray[i];
-        numListElem.innerHTML +=`<li>${curNum}</li>`
+        numListElem.innerHTML += `<li>${curNum}</li>`
     }
-let counter = 5
-    const timerId = setInterval(function(){
+    let counter = 3
+    const timerId = setInterval(function () {
         timerElem.innerHTML = counter;
         counter--
-        if(counter === 0){
+        if (counter === 0) {
             clearInterval(timerId)
-            numListElem.innerHTML ="";
-            timerElem.innerHTML ="Indovina";
-            guessFormElem.classList.remove ("d-none");
-            startBtnElem.classList.add ("d-none");
+            numListElem.innerHTML = "";
+            timerElem.innerHTML = "Indovina";
+            guessFormElem.classList.remove("d-none");
             startBtnElem.disabled = false
         }
     }, 1000);
-    
+
 }
 
 startBtnElem.addEventListener("click", startGame);
 
+const formSubmit = (event) => {
+    event.preventDefault()
+    const numGuessed = []
+    for (let i = 0; i < inputList, length; i++) {
+        const curInput = inputList[i];
+        numGuessed.push(parseInt(curInput.value))
+    }
+    const correctGuess = []
+    let counter2 = 0
+    for (let i = 0; i < numGuessed.length; i++) {
+        const curNum = numGuessed[i];
+        if (numsArray.includes(curNum)) {
+            correctGuess.push(curNum);
+            counter2++
+        }
+    }
+    errorCountElem.innerHTML = `Hai indovinato ${counter2} numeri: ${correctGuess.join(",")}`
+}
+guessFormElem.addEventListener("submit", formSubmit);
