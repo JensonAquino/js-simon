@@ -1,12 +1,13 @@
 //elementi 
-
+//1 parte
 const startBtnElem = document.getElementById("startBtn");
 const timerElem = document.getElementById("timer");
 const numListElem = document.getElementById("numList");
-const guessFormlem = document.getElementById("guessForm");
-
+const guessFormElem = document.getElementById("guessForm");
+// 2 parte
+const inputList = document.querySelectorAll("input");
+const errorCountElem = document.getElementById("errorCount")
 ///////////
-
 function getRandomNum(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
@@ -31,6 +32,20 @@ const startGame = () => {
         const curNum = numsArray[i];
         numListElem.innerHTML +=`<li>${curNum}</li>`
     }
+let counter = 5
+    const timerId = setInterval(function(){
+        timerElem.innerHTML = counter;
+        counter--
+        if(counter === 0){
+            clearInterval(timerId)
+            numListElem.innerHTML ="";
+            timerElem.innerHTML ="Indovina";
+            guessFormElem.classList.remove ("d-none");
+            startBtnElem.classList.add ("d-none");
+            startBtnElem.disabled = false
+        }
+    }, 1000);
+    
 }
 
 startBtnElem.addEventListener("click", startGame);
